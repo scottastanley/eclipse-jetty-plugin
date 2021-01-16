@@ -27,7 +27,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Comment;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
@@ -43,6 +45,7 @@ public class DOMBuilder
     protected Document document = null;
     protected Node rootNode = null;
     protected Node activeNode = null;
+    private String dtdUrl = null;
 
     /**
      * Initializes the builder and creates a new document
@@ -380,6 +383,16 @@ public class DOMBuilder
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
+        // If a DTD URL is defined, then include it
+    	if (dtdUrl != null) {
+        	DOMImplementation domImpl = document.getImplementation();
+        	DocumentType doctype = domImpl.createDocumentType("doctype",
+        		    "-//Jetty//Configure//EN",
+        		    dtdUrl);
+        	transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
+        	transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+    	}
+    	
         try
         {
             transformer.transform(new DOMSource(document), new StreamResult(out));
@@ -389,5 +402,8 @@ public class DOMBuilder
             throw new IOException(String.format("Failed to transform node: %s", e)); //$NON-NLS-1$
         }
     }
-
+    
+    public void setDTDUrl(final String dtdUrl) {
+    	this.dtdUrl = dtdUrl;
+    }
 }

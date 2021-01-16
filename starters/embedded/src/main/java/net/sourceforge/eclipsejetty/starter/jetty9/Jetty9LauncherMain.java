@@ -12,15 +12,15 @@
 package net.sourceforge.eclipsejetty.starter.jetty9;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.PrintStream;
-
-import net.sourceforge.eclipsejetty.starter.common.AbstractJettyLauncherMain;
-import net.sourceforge.eclipsejetty.starter.common.ServerAdapter;
+import java.net.URL;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.xml.XmlConfiguration;
+
+import net.sourceforge.eclipsejetty.starter.common.AbstractJettyLauncherMain;
+import net.sourceforge.eclipsejetty.starter.common.ServerAdapter;
 
 /**
  * Main for Jetty 9
@@ -75,10 +75,10 @@ public class Jetty9LauncherMain extends AbstractJettyLauncherMain
      *      java.lang.Class, net.sourceforge.eclipsejetty.starter.common.ServerAdapter)
      */
     @Override
-    protected void configure(FileInputStream in, Class<?> type, ServerAdapter adapter) throws Exception
+    protected void configure(URL inUrl, Class<?> type, ServerAdapter adapter) throws Exception
     {
         Server server = (Server) adapter.getServer();
-        XmlConfiguration configuration = new XmlConfiguration(in);
+        XmlConfiguration configuration = new XmlConfiguration(inUrl);
 
         if (type.isInstance(server))
         {

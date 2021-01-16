@@ -9,26 +9,27 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package net.sourceforge.eclipsejetty.starter.jetty6;
+package net.sourceforge.eclipsejetty.starter.jetty10;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.Server;
-import org.mortbay.xml.XmlConfiguration;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.xml.XmlConfiguration;
 
 import net.sourceforge.eclipsejetty.starter.common.AbstractJettyLauncherMain;
 import net.sourceforge.eclipsejetty.starter.common.ServerAdapter;
 
 /**
- * Main for Jetty 6
+ * Main for Jetty 10
  * 
  * @author Christian K&ouml;berl
  * @author Manfred Hantschel
  */
-public class Jetty6LauncherMain extends AbstractJettyLauncherMain
+public class Jetty10LauncherMain extends AbstractJettyLauncherMain
 {
 
     /**
@@ -39,10 +40,12 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
      */
     public static void main(String[] args) throws Exception
     {
-        new Jetty6LauncherMain().launch(args);
+        new Jetty10LauncherMain().launch(args);
     }
 
     /**
+     * Logo formatted with http://patorjk.com/software/taag/#p=display&f=Big&t=
+     * 
      * {@inheritDoc}
      * 
      * @see net.sourceforge.eclipsejetty.starter.common.AbstractJettyLauncherMain#printLogo(java.io.PrintStream)
@@ -50,11 +53,14 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
     @Override
     protected void printLogo(PrintStream out)
     {
-        out.println("   ____    ___                   __    __  __         ____");
-        out.println("  / __/___/ (_)__  ___ ___   __ / /__ / /_/ /___ __  / __/");
-        out.println(" / _// __/ / / _ \\(_-</ -_) / // / -_) __/ __/ // / / _ \\");
-        out.println("/___/\\__/_/_/ .__/___/\\__/  \\___/\\__/\\__/\\__/\\_, /  \\___/");
-        out.println("           /_/                              /___/");
+    	  out.println(" ______     _ _                       _      _   _           __  ___   ");
+    	  out.println("|  ____|   | (_)                     | |    | | | |         /_ |/ _ \\ ");
+    	  out.println("| |__   ___| |_ _ __  ___  ___       | | ___| |_| |_ _   _   | | | | |");
+    	  out.println("|  __| / __| | | '_ \\/ __|/ _ \\  _   | |/ _ \\ __| __| | | |  | | | | |");
+    	  out.println("| |___| (__| | | |_) \\__ \\  __/ | |__| |  __/ |_| |_| |_| |  | | |_| |");
+    	  out.println("|______\\___|_|_| .__/|___/\\___|  \\____/ \\___|\\__|\\__|\\__, |  |_|\\___/ ");
+    	  out.println("               | |                                    __/ |           ");
+    	  out.println("               |_|                                   |___/           ");
     }
 
     /**
@@ -65,7 +71,7 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
     @Override
     protected ServerAdapter createAdapter(File[] configurationFiles, boolean showInfo) throws Exception
     {
-        return new Jetty6Adapter(new Server());
+        return new Jetty10Adapter(new Server());
     }
 
     /**
@@ -78,7 +84,8 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
     protected void configure(URL inUrl, Class<?> type, ServerAdapter adapter) throws Exception
     {
         Server server = (Server) adapter.getServer();
-        XmlConfiguration configuration = new XmlConfiguration(inUrl);
+        Resource resource = Resource.newResource(inUrl);
+        XmlConfiguration configuration = new XmlConfiguration(resource);
 
         if (type.isInstance(server))
         {
@@ -89,18 +96,13 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
 
         boolean success = false;
 
-        Handler[] handlers = server.getHandlers();
-
-        if (handlers != null)
+        for (Handler handler : server.getHandlers())
         {
-            for (Handler handler : handlers)
+            if (type.isInstance(handler))
             {
-                if (type.isInstance(handler))
-                {
-                    configuration.configure(handler);
+                configuration.configure(handler);
 
-                    success = true;
-                }
+                success = true;
             }
         }
 
@@ -109,17 +111,7 @@ public class Jetty6LauncherMain extends AbstractJettyLauncherMain
             return;
         }
 
-        Handler handler = server.getHandler();
-
-        if (type.isInstance(handler))
-        {
-            configuration.configure(handler);
-
-            return;
-        }
-
         throw new IllegalArgumentException(String.format(
             "Failed to run configuration for %s. No matching object found in server.", type));
     }
-
 }

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +23,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.eclipsejetty.starter.console.Console;
-import net.sourceforge.eclipsejetty.starter.util.Utils;
-import net.sourceforge.eclipsejetty.starter.util.service.GlobalServiceResolver;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import net.sourceforge.eclipsejetty.starter.console.Console;
+import net.sourceforge.eclipsejetty.starter.util.Utils;
+import net.sourceforge.eclipsejetty.starter.util.service.GlobalServiceResolver;
 
 /**
  * Abstract base class for the Jetty launcher
@@ -56,7 +57,7 @@ public abstract class AbstractJettyLauncherMain
         long millis = System.currentTimeMillis();
         boolean showInfo = System.getProperty(HIDE_LAUNCH_INFO_KEY) == null;
         boolean consoleEnabled = System.getProperty(DISABLE_CONSOLE_KEY) == null;
-
+Thread.dumpStack();
         if (showInfo)
         {
             printLogo(System.out);
@@ -129,7 +130,7 @@ public abstract class AbstractJettyLauncherMain
         for (int i = 0; i < configurationFiles.length; i += 1)
         {
             File configurationFile = configurationFiles[i];
-
+            
             if (showInfo)
             {
                 out.println(String.format("%18s%s", (i == 0) ? "Configuration: " : Utils.EMPTY,
@@ -137,20 +138,11 @@ public abstract class AbstractJettyLauncherMain
             }
 
             Class<?> type = determineClass(configurationFile);
-            FileInputStream in = new FileInputStream(configurationFile);
-
-            try
-            {
-                configure(in, type, adapter);
-            }
-            finally
-            {
-                in.close();
-            }
+            configure(configurationFile.toURI().toURL(), type, adapter);
         }
     }
 
-    protected abstract void configure(FileInputStream in, Class<?> type, ServerAdapter adapter) throws Exception;
+    protected abstract void configure(URL inUrl, Class<?> type, ServerAdapter adapter) throws Exception;
 
     protected static File[] getConfigurationFiles(String definitionList) throws IOException
     {
