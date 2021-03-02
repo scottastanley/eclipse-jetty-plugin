@@ -57,7 +57,7 @@ public abstract class AbstractJettyLauncherMain
         long millis = System.currentTimeMillis();
         boolean showInfo = System.getProperty(HIDE_LAUNCH_INFO_KEY) == null;
         boolean consoleEnabled = System.getProperty(DISABLE_CONSOLE_KEY) == null;
-Thread.dumpStack();
+
         if (showInfo)
         {
             printLogo(System.out);
