@@ -18,7 +18,7 @@ import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.sourcelookup.SourceLookupTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaArgumentsTab;
-import org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab;
+import org.eclipse.jdt.debug.ui.launchConfigurations.JavaDependenciesTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaJRETab;
 
 /**
@@ -45,7 +45,7 @@ public class JettyLaunchConfigurationTabGroup extends AbstractLaunchConfiguratio
         final ILaunchConfigurationTab[] tabs =
             new ILaunchConfigurationTab[]{new JettyLaunchConfigurationTab(), new JavaArgumentsTab(),
                 new JettyLaunchAdvancedConfigurationTab(), new JettyLaunchDependencyConfigurationTab(),
-                new JavaJRETab(), new JavaClasspathTab(), new SourceLookupTab(), new EnvironmentTab(), new CommonTab()};
+                new JavaJRETab(), new JavaDependenciesTab(), new SourceLookupTab(), new EnvironmentTab(), new CommonTab()};
 
         setTabs(tabs);
     }
