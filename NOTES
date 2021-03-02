@@ -1,0 +1,10 @@
+Importing Projects
+==================
+1) Import all except for the launcher project as general, existing
+2) Import the launcher as Maven project, existing
+
+Building after changes
+======================
+Must run maven after changes for them to be picked up.
+
+Always to "mvn package" not my mvnbuild alias.
