@@ -4,13 +4,22 @@ import net.sourceforge.eclipsejetty.jetty.JettyConfigBuilder;
 import net.sourceforge.eclipsejetty.jetty9.Jetty9ServerConfiguration;
 import net.sourceforge.eclipsejetty.util.DOMBuilder;
 
+/**
+ * Server configuration for Jetty 10
+ * 
+ * @author Scott Stanley
+ */
 public class Jetty10ServerConfiguration extends Jetty9ServerConfiguration {
+    
+    protected String getDTD() {
+        return "https://www.eclipse.org/jetty/configure_10_0.dtd";
+    }
 
     @Override
 	protected void buildBody(DOMBuilder domBuilder) {
 		super.buildBody(domBuilder);
 		
-		domBuilder.setDTDUrl("https://www.eclipse.org/jetty/configure_10_0.dtd");
+		domBuilder.setDTDUrl(getDTD());
 	}
 
 	/**

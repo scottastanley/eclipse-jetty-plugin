@@ -34,7 +34,7 @@ import net.sourceforge.eclipsejetty.starter.common.ServerAdapter;
 /**
  * Implemation of the {@link ServerAdapter} for Jetty 10
  * 
- * @author Manfred Hantschel
+ * @author Scott Stanley
  */
 public class Jetty10Adapter extends AbstractServerAdapter implements DumpableServerAdapter
 {
