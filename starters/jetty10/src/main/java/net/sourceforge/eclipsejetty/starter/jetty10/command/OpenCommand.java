@@ -24,7 +24,7 @@ import net.sourceforge.eclipsejetty.starter.util.Utils;
 /**
  * Opens a browser.
  * 
- * @author Manfred Hantschel
+ * @author Scott Stanley
  */
 public class OpenCommand extends AbstractCommand
 {
