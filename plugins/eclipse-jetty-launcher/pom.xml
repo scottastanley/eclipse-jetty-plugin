@@ -61,6 +61,13 @@
 
         <dependency>
             <groupId>net.sourceforge.eclipsejetty</groupId>
+            <artifactId>eclipse-jetty-starters-jetty11</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.eclipsejetty</groupId>
             <artifactId>eclipse-jetty-starters-console</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -110,6 +117,7 @@
                                 eclipse-jetty-starters-jetty8,
                                 eclipse-jetty-starters-jetty9,
                                 eclipse-jetty-starters-jetty10,
+                                eclipse-jetty-starters-jetty11,
                                 eclipse-jetty-starters-console,
                                 eclipse-jetty-starters-util</includeArtifactIds>
                             <outputDirectory>${project.build.directory}/../lib</outputDirectory>

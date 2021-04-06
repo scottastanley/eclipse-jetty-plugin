@@ -343,6 +343,9 @@ public class JettyVersion
             
             case 10:
             	return JettyVersionType.JETTY_10;
+                
+            case 11:
+                return JettyVersionType.JETTY_11;
             	
             default:
                 return null;

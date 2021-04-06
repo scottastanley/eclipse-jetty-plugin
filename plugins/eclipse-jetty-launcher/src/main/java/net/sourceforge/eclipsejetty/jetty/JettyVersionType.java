@@ -15,6 +15,9 @@ import net.sourceforge.eclipsejetty.jetty.embedded.JettyEmbeddedLibStrategy;
 import net.sourceforge.eclipsejetty.jetty10.Jetty10LibStrategy;
 import net.sourceforge.eclipsejetty.jetty10.Jetty10ServerConfiguration;
 import net.sourceforge.eclipsejetty.jetty10.Jetty10WebDefaults;
+import net.sourceforge.eclipsejetty.jetty11.Jetty11LibStrategy;
+import net.sourceforge.eclipsejetty.jetty11.Jetty11ServerConfiguration;
+import net.sourceforge.eclipsejetty.jetty11.Jetty11WebDefaults;
 import net.sourceforge.eclipsejetty.jetty6.Jetty6LibStrategy;
 import net.sourceforge.eclipsejetty.jetty6.Jetty6ServerConfiguration;
 import net.sourceforge.eclipsejetty.jetty6.Jetty6WebDefaults;
@@ -78,7 +81,13 @@ public enum JettyVersionType
      * A Jetty 10 at a specified path
      */
     JETTY_10("net.sourceforge.eclipsejetty.starter.jetty10.Jetty10LauncherMain", "lib/eclipse-jetty-starters-jetty10.jar",
-        Jetty10ServerConfiguration.class, new Jetty10LibStrategy(), Jetty10WebDefaults.class);
+        Jetty10ServerConfiguration.class, new Jetty10LibStrategy(), Jetty10WebDefaults.class),
+
+    /**
+     * A Jetty 11 at a specified path
+     */
+    JETTY_11("net.sourceforge.eclipsejetty.starter.jetty11.Jetty11LauncherMain", "lib/eclipse-jetty-starters-jetty11.jar",
+        Jetty11ServerConfiguration.class, new Jetty11LibStrategy(), Jetty11WebDefaults.class);
 	
     private final String mainClass;
     private final String jar;
